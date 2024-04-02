@@ -45,3 +45,13 @@ form > * {
 .result {
     font-size: 4rem;
 }
+
+.marks {
+    display: flex;
+    list-style: none;
+    font-size: 4rem;
+}
+
+.marks > li {
+    padding-right: 5px;
+}

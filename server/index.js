@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import students from './students.js';
 
 const PORT = 4821;
 const app = express();
@@ -14,28 +15,8 @@ app.get("/", (req, res) => {
   return res.send("Home page");
 });
 
-app.get("/api/student", (req, res) => {
-  return res.send(
-    JSON.stringify({
-      "students": [
-        {
-          "name": "Patric",
-          "age": 24,
-          "marks": [6, 8, 4, 9],
-        },
-        {
-          "name": "Spongebob",
-          "age": 28,
-          "marks": [10, 9, 8, 7],
-        },
-        {
-          "name": "Sandy",
-          "age": 20,
-          "marks": [9, 10, 10, 10],
-        }
-      ]
-    })
-  );
+app.get("/api/student/:id", (req, res) => {
+  return res.json(students[req.params.id]);
 });
 
 app.listen(PORT, () => {

@@ -1,14 +1,20 @@
 import { useState } from "react";
 
-function App() {
-  const [answer, setAnswer] = useState("");
+const maxStudents = 3;
 
-  function handleFormSubmit(e) {
+function App() {
+  const [answer, setAnswer] = useState([]);
+  const [id, setId] = useState(null);
+
+  function handlerOnChange(e) {
     e.preventDefault();
 
-    fetch("http://localhost:4821/api/student")
+    fetch(`http://localhost:4821/api/student/${id ? id : 0}`)
       .then((res) => res.json())
-      .then((data) => setAnswer(data.students))
+      .then((data) => {
+        setAnswer(data);
+        setId(id < maxStudents - 1 ? id + 1 : 0);
+      })
       .catch((e) => console.error(e));
   }
 
@@ -16,10 +22,16 @@ function App() {
     <>
       <header className="container">HEADER</header>
       <main className="container">
-        <form onSubmit={handleFormSubmit}>
-          <button>Next student</button>
+        <form>
+          <button onClick={handlerOnChange}>Next student</button>
         </form>
-        <div className="result">Result: {answer}</div>
+        <div className="result">{answer.name}</div>
+        <div className="result">{answer.age}</div>
+        <ul className="marks">
+          {answer.marks?.map((mark, index) => {
+            return <li key={index}>{mark},</li>;
+          })}
+        </ul>
       </main>
       <footer className="container">FOOTER</footer>
     </>
